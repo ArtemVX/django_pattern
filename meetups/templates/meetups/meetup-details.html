@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+
+{% block title%}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if meetup_found %}
+    <main>
+      <article>
+            <p>{{ selected_meetup.description }}</p>
+            <img src="{{ selected_meetup.image.url }}" alt=" title "> <br>
+            <p>{{ selected_meetup.location }}</p>
+            <p>{{ selected_meetup.date }}</p>
+            <a href="mailto:{{ selected_meetup.organizer_email }}">organizer: {{ selected_meetup.organizer_email }}</a>
+
+
+            <div id="registration-actions">
+                  <a href="{% url 'new-visitor' selected_meetup.slug %}">I will go</a>
+            </div>
+
+            <a href="{% url 'meetups' %}">Back</a>
+      </article>
+</main>
+    {% else %}
+        {% include 'includes/error-body.html' with error=error_message %}
+    {% endif %}
+{% endblock %}

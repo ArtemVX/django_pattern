@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+
+
+{% block title%}{{ title }}{% endblock %}
+
+
+{% block body %}
+
+    <h1>All meetups</h1>
+    {% for meetup in meetups %}
+        <h2> {{ meetup.title }} </h2>
+        <img src="{{ meetup.image.url }}" alt=" meetup.title "> <br>
+        <a href="{% url 'meetup-detail' meetup.slug %}"> More details</a>
+    {% endfor %}
+
+{% endblock %}

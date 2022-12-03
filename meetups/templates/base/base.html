@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title%}{% endblock %}</title>
+</head>
+<body>
+    {% block main_menu %}
+        <a href="{% url 'meetups' %} ">home</a>
+
+        {% for m in menu %}
+            <!--  class = 'left' or 'right' -->
+            {% if 'slug' in m %}
+                <a href="{% url m.url_name m.slug %}" class="{{m.class_name}}"> {{ m.title }}</a>
+            {% else %}
+                <a href="{% url m.url_name %}" class="{{m.class_name}}"> {{ m.title }}</a>
+            {% endif %}
+        {% endfor %}
+
+    {% endblock %}
+
+
+    {% block body %}{% endblock %}
+
+    {% if page_obj.has_other_pages %}
+        <nav class="list-pages">
+            <ul>
+                {% if page_obj.has_previous %}
+                <li class="page-num">
+                    <a href="?page={{ page_obj.previous_page_number }}">&lt</a>
+                </li>
+                {% endif %}
+
+                {%  for page in paginator.page_range %}
+                    {% if page_obj.number == page %}
+                        <li class="page-num page-num-selected"> {{ page }}</li>
+                    {% elif page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+                        <li class="page-num">
+                            <a href="?page={{ page }}"> {{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-num">
+                    <a href="?page={{ page_obj.next_page_number }}">&gt</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</body>
+</html>
